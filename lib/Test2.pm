@@ -122,6 +122,8 @@ L<Test2::Event> - Events live in this namespace.
 L<Test2::Hub> - All events eventually funnel through a hub. Custom hubs are how
 C<intercept()> and C<run_subtest()> are implemented.
 
+L<Test2::Todo> - Set and manage TODO states.
+
 =head1 SOURCE
 
 The source code repository for Test2 can be found at
