@@ -403,19 +403,6 @@ tests state => sub {
     is($hub->failed,     1, "new failure");
     is($hub->is_passing, 0, "Not passing");
 
-#    my $file = __FILE__;
-#    my ($fline, $sline) = (__LINE__ + 1, __LINE__ + 2);
-#    $hub->finish([__PACKAGE__, __FILE__, __LINE__]);
-#    my $ok = eval { $hub->finish([__PACKAGE__, __FILE__, __LINE__]); 1 };
-#    my $err = $@;
-#    ok(!$ok, "died");
-#
-#    is($err, <<"    EOT", "Got expected error");
-#    Test already ended!
-#    First End:  $file line $fline
-#    Second End: $file line $sline
-#    EOT
-
     ok(!eval { $hub->plan('foo'); 1 }, "Could not set plan to 'foo'");
     like($@, qr/'foo' is not a valid plan! Plan must be an integer greater than 0, 'NO PLAN', or 'SKIP'/, "Got expected error");
 
@@ -432,6 +419,37 @@ tests state => sub {
 
     ok(!eval { $hub->plan(5); 1 }, "Cannot change plan");
     like($@, qr/You cannot change the plan/, "Got error");
+
+    my $trace = Test2::Util::Trace->new(frame => ['Foo::Bar', 'foo.t', 42, 'blah']);
+    $hub->finalize($trace);
+    my $ok = eval { $hub->finalize($trace) };
+    my $err = $@;
+    ok(!$ok, "died");
+
+    is($err, <<"    EOT", "Got expected error");
+Test already ended!
+First End:  foo.t line 42
+Second End: foo.t line 42
+    EOT
+
+    $hub = Test2::Hub->new;
+
+    $hub->plan(5);
+    $hub->set_count(5);
+    $hub->set_failed(1);
+    $hub->set_ended($trace);
+    $hub->set_bailed_out("foo");
+    $hub->set_skip_reason('xxx');
+    ok(!$hub->is_passing, "not passing");
+
+    $hub->reset_state;
+
+    ok(!$hub->plan, "no plan");
+    is($hub->count, 0, "count reset to 0");
+    is($hub->failed, 0, "reset failures");
+    ok(!$hub->ended, "not ended");
+    ok(!$hub->bailed_out, "did not bail out");
+    ok(!$hub->skip_reason, "no skip reason");
 };
 
 done_testing;

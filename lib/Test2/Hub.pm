@@ -52,6 +52,19 @@ sub init {
     }
 }
 
+sub reset_state {
+    my $self = shift;
+
+    $self->{+COUNT} = 0;
+    $self->{+FAILED} = 0;
+    $self->{+_PASSING} = 1;
+
+    delete $self->{+_PLAN};
+    delete $self->{+ENDED};
+    delete $self->{+BAILED_OUT};
+    delete $self->{+SKIP_REASON};
+}
+
 sub inherit {
     my $self = shift;
     my ($from, %params) = @_;
