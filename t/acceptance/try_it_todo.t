@@ -1,8 +1,7 @@
 use strict;
 use warnings;
 
-use Test2::API qw/context/;
-use Test2::Todo;
+use Test2::API qw/context test2_stack/;
 
 sub done_testing {
     my $ctx = context();
@@ -22,9 +21,16 @@ sub ok($;$) {
 
 ok(1, "First");
 
-my $todo = Test2::Todo->new(reason => 'here be dragons');
+my $filter = test2_stack->top->filter(sub {
+    my ($hub, $event) = @_;
+    $event->set_todo('here be dragons');
+    $event->diag_todo(1);
+    return $event;
+});
+
 ok(0, "Second");
-$todo = undef;
+
+test2_stack->top->unfilter($filter);
 
 ok(1, "Third");
 
