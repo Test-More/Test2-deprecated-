@@ -2,8 +2,7 @@ package Test2::Event::Ok;
 use strict;
 use warnings;
 
-our $VERSION = '0.000043';
-$VERSION = eval $VERSION;    ## no critic (BuiltinFunctions::ProhibitStringyEval)
+our $VERSION = '0.000044';
 
 use base 'Test2::Event';
 use Test2::Util::HashBase qw{

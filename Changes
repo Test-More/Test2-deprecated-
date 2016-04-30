@@ -1,5 +1,7 @@
 {{$NEXT}}
 
+    - Remove things that should nto have been backported from Test-Simple merger
+
 0.000043  2016-04-30 05:21:51-07:00 America/Los_Angeles
 
     - Better error messages when using Carp in Hashbase init()

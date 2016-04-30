@@ -2,8 +2,7 @@ package Test2::API;
 use strict;
 use warnings;
 
-our $VERSION = '0.000043';
-$VERSION = eval $VERSION;    ## no critic (BuiltinFunctions::ProhibitStringyEval)
+our $VERSION = '0.000044';
 
 my $INST;
 my $ENDING = 0;

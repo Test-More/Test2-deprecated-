@@ -2,8 +2,7 @@ package Test2::API::Instance;
 use strict;
 use warnings;
 
-our $VERSION = '0.000043';
-$VERSION = eval $VERSION;    ## no critic (BuiltinFunctions::ProhibitStringyEval)
+our $VERSION = '0.000044';
 
 our @CARP_NOT = qw/Test2::API Test2::API::Instance Test2::IPC::Driver Test2::Formatter/;
 use Carp qw/confess carp/;
@@ -371,21 +370,21 @@ sub set_exit {
     my $exit     = $?;
     my $new_exit = $exit;
 
-    if ($INC{'Test/Builder.pm'} && $Test::Builder::VERSION ne $Test2::API::VERSION) {
-        print STDERR <<"        EOT";
-
-********************************************************************************
-*                                                                              *
-*            Test::Builder -- Test2::API version mismatch detected             *
-*                                                                              *
-********************************************************************************
-   Test2::API Version: $Test2::API::VERSION
-Test::Builder Version: $Test::Builder::VERSION
-
-This is not a supported configuration, you will have problems.
-
-        EOT
-    }
+#    if ($INC{'Test/Builder.pm'} && $Test::Builder::VERSION ne $Test2::API::VERSION) {
+#        print STDERR <<"        EOT";
+#
+#********************************************************************************
+#*                                                                              *
+#*            Test::Builder -- Test2::API version mismatch detected             *
+#*                                                                              *
+#********************************************************************************
+#   Test2::API Version: $Test2::API::VERSION
+#Test::Builder Version: $Test::Builder::VERSION
+#
+#This is not a supported configuration, you will have problems.
+#
+#        EOT
+#    }
 
     for my $ctx (values %{$self->{+CONTEXTS}}) {
         next unless $ctx;

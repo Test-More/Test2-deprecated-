@@ -2,8 +2,7 @@ package Test2::Util::HashBase;
 use strict;
 use warnings;
 
-our $VERSION = '0.000043';
-$VERSION = eval $VERSION;    ## no critic (BuiltinFunctions::ProhibitStringyEval)
+our $VERSION = '0.000044';
 
 require Carp;
 $Carp::Internal{+__PACKAGE__} = 1;
