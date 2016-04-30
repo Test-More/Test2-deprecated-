@@ -3,6 +3,7 @@ use strict;
 use warnings;
 
 our $VERSION = '0.000043';
+$VERSION = eval $VERSION;    ## no critic (BuiltinFunctions::ProhibitStringyEval)
 
 our @CARP_NOT = qw/Test2::API Test2::API::Instance Test2::IPC::Driver Test2::Formatter/;
 use Carp qw/confess carp/;
@@ -219,11 +220,11 @@ sub add_post_load_callback {
 sub load {
     my $self = shift;
     unless ($self->{+LOADED}) {
-        # This is for https://github.com/Test-More/Test2/issues/16
+        # This is for https://github.com/Test-More/test-more/issues/16
         # and https://rt.perl.org/Public/Bug/Display.html?id=127774
         # END blocks run in reverse order. This insures the END block is loaded
         # as late as possible. It will not solve all cases, but it helps.
-        eval "END { Test2::API->_set_is_end() }; 1" or die $@;
+        eval "END { Test2::API::test2_set_is_end() }; 1" or die $@;
 
         $self->{+LOADED} = 1;
         $_->() for @{$self->{+POST_LOAD_CALLBACKS}};
@@ -370,6 +371,22 @@ sub set_exit {
     my $exit     = $?;
     my $new_exit = $exit;
 
+    if ($INC{'Test/Builder.pm'} && $Test::Builder::VERSION ne $Test2::API::VERSION) {
+        print STDERR <<"        EOT";
+
+********************************************************************************
+*                                                                              *
+*            Test::Builder -- Test2::API version mismatch detected             *
+*                                                                              *
+********************************************************************************
+   Test2::API Version: $Test2::API::VERSION
+Test::Builder Version: $Test::Builder::VERSION
+
+This is not a supported configuration, you will have problems.
+
+        EOT
+    }
+
     for my $ctx (values %{$self->{+CONTEXTS}}) {
         next unless $ctx;
 
@@ -439,6 +456,17 @@ sub set_exit {
 
     $new_exit = 255 if $new_exit > 255;
 
+    if ($new_exit) {
+        require Test2::API::Breakage;
+        my @warn = Test2::API::Breakage->report();
+
+        if (@warn) {
+            print STDERR "\nYou have loaded versions of test modules known to have problems with Test2.\nThis could explain some test failures.\n";
+            print STDERR "$_\n" for @warn;
+            print STDERR "\n";
+        }
+    }
+
     $? = $new_exit;
 }
 
@@ -453,10 +481,6 @@ __END__
 =head1 NAME
 
 Test2::API::Instance - Object used by Test2::API under the hood
-
-=head1 EXPERIMENTAL RELEASE
-
-This is an experimental release. Using this right now is not recommended.
 
 =head1 DESCRIPTION
 
@@ -656,7 +680,7 @@ a warning will be generated:
 =head1 SOURCE
 
 The source code repository for Test2 can be found at
-F<http://github.com/Test-More/Test2/>.
+F<http://github.com/Test-More/test-more/>.
 
 =head1 MAINTAINERS
 
@@ -676,7 +700,7 @@ F<http://github.com/Test-More/Test2/>.
 
 =head1 COPYRIGHT
 
-Copyright 2015 Chad Granum E<lt>exodist7@gmail.comE<gt>.
+Copyright 2016 Chad Granum E<lt>exodist@cpan.orgE<gt>.
 
 This program is free software; you can redistribute it and/or
 modify it under the same terms as Perl itself.

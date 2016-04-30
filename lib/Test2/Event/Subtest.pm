@@ -3,6 +3,7 @@ use strict;
 use warnings;
 
 our $VERSION = '0.000043';
+$VERSION = eval $VERSION;    ## no critic (BuiltinFunctions::ProhibitStringyEval)
 
 use base 'Test2::Event::Ok';
 use Test2::Util::HashBase qw{subevents buffered subtest_id};
@@ -41,10 +42,6 @@ __END__
 
 Test2::Event::Subtest - Event for subtest types
 
-=head1 EXPERIMENTAL RELEASE
-
-This is an experimental release. Using this right now is not recommended.
-
 =head1 DESCRIPTION
 
 This class represents a subtest. This class is a subclass of
@@ -70,7 +67,7 @@ is false it means all subevents render as they are produced.
 =head1 SOURCE
 
 The source code repository for Test2 can be found at
-F<http://github.com/Test-More/Test2/>.
+F<http://github.com/Test-More/test-more/>.
 
 =head1 MAINTAINERS
 
@@ -90,7 +87,7 @@ F<http://github.com/Test-More/Test2/>.
 
 =head1 COPYRIGHT
 
-Copyright 2015 Chad Granum E<lt>exodist7@gmail.comE<gt>.
+Copyright 2016 Chad Granum E<lt>exodist@cpan.orgE<gt>.
 
 This program is free software; you can redistribute it and/or
 modify it under the same terms as Perl itself.

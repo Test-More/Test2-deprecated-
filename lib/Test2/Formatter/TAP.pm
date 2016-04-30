@@ -3,6 +3,7 @@ use strict;
 use warnings;
 
 our $VERSION = '0.000043';
+$VERSION = eval $VERSION;    ## no critic (BuiltinFunctions::ProhibitStringyEval)
 
 use Test2::Util::HashBase qw{
     no_numbers handles _encoding
@@ -236,7 +237,7 @@ sub event_subtest {
     # non-verbose harness we do nto do this because it is less readable.
     if ($ENV{HARNESS_IS_VERBOSE}) {
         # index 0 is the filehandle, index 1 is the message we want to indent.
-        $_->[1] =~ s/^(.*\S)$/    $1/mg for @diag;
+        $_->[1] =~ s/^(.*\S.*)$/    $1/mg for @diag;
     }
 
     # Add the trailing ' {' to the 'ok' line of TAP output.
@@ -250,7 +251,7 @@ sub event_subtest {
 
         # This indents all output lines generated for the sub-events.
         # index 0 is the filehandle, index 1 is the message we want to indent.
-        map { $_->[1] =~ s/^(.*\S)$/    $1/mg; $_ } $self->event_tap($_, $count);
+        map { $_->[1] =~ s/^(.*\S.*)$/    $1/mg; $_ } $self->event_tap($_, $count);
     } @{$e->subevents};
 
     return (
@@ -325,10 +326,6 @@ __END__
 =head1 NAME
 
 Test2::Formatter::TAP - Standard TAP formatter
-
-=head1 EXPERIMENTAL RELEASE
-
-This is an experimental release. Using this right now is not recommended.
 
 =head1 DESCRIPTION
 
@@ -472,7 +469,7 @@ convert the event to TAP.
 =head1 SOURCE
 
 The source code repository for Test2 can be found at
-F<http://github.com/Test-More/Test2/>.
+F<http://github.com/Test-More/test-more/>.
 
 =head1 MAINTAINERS
 
@@ -494,7 +491,7 @@ F<http://github.com/Test-More/Test2/>.
 
 =head1 COPYRIGHT
 
-Copyright 2015 Chad Granum E<lt>exodist7@gmail.comE<gt>.
+Copyright 2016 Chad Granum E<lt>exodist@cpan.orgE<gt>.
 
 This program is free software; you can redistribute it and/or
 modify it under the same terms as Perl itself.

@@ -3,6 +3,7 @@ use strict;
 use warnings;
 
 our $VERSION = '0.000043';
+$VERSION = eval $VERSION;    ## no critic (BuiltinFunctions::ProhibitStringyEval)
 
 use base 'Test2::Event';
 use Test2::Util::HashBase qw/message/;
@@ -24,10 +25,6 @@ __END__
 =head1 NAME
 
 Test2::Event::Note - Note event type
-
-=head1 EXPERIMENTAL RELEASE
-
-This is an experimental release. Using this right now is not recommended.
 
 =head1 DESCRIPTION
 
@@ -54,7 +51,7 @@ The message for the note.
 =head1 SOURCE
 
 The source code repository for Test2 can be found at
-F<http://github.com/Test-More/Test2/>.
+F<http://github.com/Test-More/test-more/>.
 
 =head1 MAINTAINERS
 
@@ -74,7 +71,7 @@ F<http://github.com/Test-More/Test2/>.
 
 =head1 COPYRIGHT
 
-Copyright 2015 Chad Granum E<lt>exodist7@gmail.comE<gt>.
+Copyright 2016 Chad Granum E<lt>exodist@cpan.orgE<gt>.
 
 This program is free software; you can redistribute it and/or
 modify it under the same terms as Perl itself.
