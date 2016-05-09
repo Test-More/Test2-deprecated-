@@ -2,7 +2,7 @@ package Test2::Hub;
 use strict;
 use warnings;
 
-our $VERSION = '0.000044';
+our $VERSION = '1.302016';
 
 use Carp qw/carp croak confess/;
 use Test2::Util qw/get_tid/;

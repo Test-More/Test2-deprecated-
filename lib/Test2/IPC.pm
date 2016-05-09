@@ -2,7 +2,7 @@ package Test2::IPC;
 use strict;
 use warnings;
 
-our $VERSION = '0.000044';
+our $VERSION = '1.302016';
 
 use Test2::API::Instance;
 use Test2::Util qw/get_tid/;

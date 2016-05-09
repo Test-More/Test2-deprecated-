@@ -2,7 +2,7 @@ package Test2::Hub::Subtest;
 use strict;
 use warnings;
 
-our $VERSION = '0.000044';
+our $VERSION = '1.302016';
 
 use base 'Test2::Hub';
 use Test2::Util::HashBase qw/nested bailed_out exit_code manual_skip_all id/;
